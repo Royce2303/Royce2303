@@ -1,0 +1,24 @@
+name: Update Daily Number
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight UTC daily
+  workflow_dispatch:
+
+jobs:
+  update-number:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Run update script
+        run: |
+          python update_number.py
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
